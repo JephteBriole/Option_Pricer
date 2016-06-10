@@ -1,0 +1,208 @@
+﻿@model PricerWebClient.PricerService.Option
+@{
+    ViewBag.Title = "Home Page";
+ }
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
+@*<div class="jumbotron">
+    <h1>ASP.NET</h1>
+    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
+    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Getting started</h2>
+        <p>
+            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
+            enables a clean separation of concerns and gives you full control over markup
+            for enjoyable, agile development.
+        </p>
+        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Get more libraries</h2>
+        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
+        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Web Hosting</h2>
+        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
+        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+    </div>
+</div>*@
+<br/>
+<div>
+    <div id="divOption">
+        <details open="open">
+            <summary><strong><u>Pricing</u></strong></summary><br />
+            <div id="divInput">
+                @using (Ajax.BeginForm("CalculatePrice", "HomeController", new AjaxOptions {OnFailure = "OnFailure", OnSuccess = "OnSuccess", UpdateTargetId = "Mc_CallPrice", HttpMethod = "POST"}, new { @id="formInput", @name="Option Input"}))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true)
+                    <p>
+                        <Table>
+                            <tr>
+                                <td style="border:0.1px solid; margin-bottom:20px; width:250px;">Spot S</td>
+                                <td>&nbsp;</td>
+                                <td style="border:0.1px solid;">
+                                    <input name="UnderlyingPrice" type="text" value=@Model.UnderlyingPrice id="UnderlyingPrice" />
+                                </td>
+                            </tr>
+                            <tr><td></td></tr>
+                            <tr>
+                                <td style="border:0.1px solid;">Strike K</td>
+                                <td>&nbsp;</td>
+                                <td style="border:0.1px solid;"> <input name="Strike" type="text" value=@Model.Strike id="Strike" /></td>
+                            </tr>
+                            <tr><td></td></tr>
+                            <tr>
+                                <td style="border:0.1px solid;">Volatility σ</td>
+                                <td>&nbsp;</td>
+                                <td style="border:0.1px solid;"> <input name="Volatility" type="text" value=@Model.Volatility id="Volatility" /></td>
+                            </tr>
+                            <tr><td></td></tr>
+                            <tr>
+                                <td style="border:0.1px solid;">Risk-free interest rate r</td>
+                                <td>&nbsp;</td>
+                                <td style="border:0.1px solid; margin-bottom:5px"><input name="RiskFreeInterestRate" type="text" value=@Model.RiskFreeInterestRate id="RiskFreeInterestRate" /></td>
+                            </tr>
+                            <tr><td></td></tr>
+                            <tr>
+                                <td style="border:0.1px solid;">Maturity T</td>
+                                <td>&nbsp;</td>
+                                <td style="border:0.1px solid;"> <input name="Maturity" type="text" value=@Model.Maturity id="Maturity" /></td>
+                            </tr>
+                            <tr><td></td></tr>
+                            <tr>
+                                <td style="border:0.1px solid;">Number of simulations n</td>
+                                <td>&nbsp;</td>
+                                <td style="border:0.1px solid;"> <input name="NbrOfSimulations" type="text" value=@Model.NbrOfSimulations id="NbrOfSimulations" /></td>
+                            </tr>
+                        </Table>
+                    </p>
+                    <p>
+                        <input type="submit" name="Compute" value="Calculate" id="btnCompute" class="ButtonStyle" style="font-weight:bold;width:80px;" />
+                        <span id="ErrorMessage" style="color:Red"></span>
+                    </p>
+
+                    <div id="divMsg"></div>
+                }
+
+                @section Scripts {
+                    @Scripts.Render("~/bundles/jqueryval")
+
+                    <script type="text/javascript">
+
+                        $(document).ready(function () {
+                            // Attach click handler to the submit button:
+                            $('#btnCompute').click(function () {
+                                $('#formInput').submit();
+                            });
+                        });
+
+                        // Handle the form submit event, and make the Ajax request:
+                        $("#formInput").on("submit", function (event) {
+                            event.preventDefault();
+
+                            var url = $(this).attr("action");
+                            var formData = $(this).serialize();
+                            $.ajax({
+                                url: url,
+                                type: "POST",
+                                data: formData,
+                                dataType: "json",
+                                success: function (resp) {
+                                }
+                            })
+                        });
+
+                        function OnSuccess() {
+                            //$("#divMsg").append("<br/>Success");
+                            //$("#divMsg").show();
+
+                            //$("#divResult").show();
+
+                            $("#Mc_CallPrice").text(@Model.CallPrice.MC.ToString());
+                            $("#Mc_PutPrice").text(@Model.PutPrice.MC.ToString());
+                            $("#Bs_CallPrice").text(@Model.CallPrice.BS.ToString());
+                            $("#Bs_PutPrice").text(@Model.PutPrice.BS.ToString());
+                            $("#ErrorCall").text(@Model.Error.Call.ToString());
+                            $("#ErrorPut").text(@Model.Error.Put.ToString());
+                        }
+
+                        function OnFailure() {
+                            $("#divMsg").append("<br/>Failed");
+                            $("#divMsg").show();
+                        }
+                    </script>
+                }
+            </div>
+
+            <div id="divResult">
+                @using (Ajax.BeginForm("ResetForm", "HomeController", null, new { @id = "formResult" }))
+                {
+                    <p>
+                        <table>
+                            <tr>
+                                <td style="width:250px;" class="style1">&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td style="border:0.1px solid; width:150px; text-align:center;"><strong>Call</strong></td>
+                                <td>&nbsp;</td>
+                                <td style="border:0.1px solid; width:150px; text-align:center;"><strong>Put</strong></td>
+                            </tr>
+                            <tr><td></td></tr>
+                            <tr>
+                                <td style="border:0.1px solid;">MC Price :</td>
+                                <td>&nbsp;</td>
+                                <td style="border:0.1px solid; text-align:center;"><span id="Mc_CallPrice"></span></td>
+                                <td>&nbsp;</td>
+                                <td style="border:0.1px solid; text-align:center;"><span id="Mc_PutPrice"></span></td>
+                            </tr>
+                            <tr><td></td></tr>
+                            <tr>
+                                <td style="border:0.1px solid;">Black-Scholes Price :</td>
+                                <td>&nbsp;</td>
+                                <td style="border:0.1px solid; text-align:center;"><span id="Bs_CallPrice"></span></td>
+                                <td>&nbsp;</td>
+                                <td style="border:0.1px solid; text-align:center;"><span id="Bs_PutPrice"></span></td>
+                            </tr>
+                            <tr><td></td></tr>
+                            <tr>
+                                <td style="border:0.1px solid;">Error of estimation :</td>
+                                <td>&nbsp;</td>
+                                <td style="border:0.1px solid; text-align:center;"><span id="ErrorCall"></span></td>
+                                <td>&nbsp;</td>
+                                <td style="border:0.1px solid; text-align:center;"><span id="ErrorPut"></span></td>
+                            </tr>
+                        </table>
+                    </p>
+                    <p>
+                        <input type="submit" name="Reset" value="Reset values" id="btnReset" class="ButtonStyle" style="font-weight:bold;width:110px;" />
+                    </p>
+                }
+            </div>
+        </details>
+    </div>
+    <br/>
+    <div id="divDetails">
+        <details>
+            <summary><strong><u>Details</u></strong></summary><br />
+            <p>
+                Monte Carlo Method for Option Pricing
+
+                The price of the underlying instrument is usually modelled such that it follows a geometric Brownian motion with constant drift µ and volatility σ. So :
+
+                <strong>dS(t) = µS(t)dt + σS(t)dW(t)</strong><br />
+                where <br />
+                <strong>&emsp;&emsp;&emsp;&nbsp;dW(t)</strong> is found via a random sampling from a normal distribution
+            </p>
+        </details>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>  

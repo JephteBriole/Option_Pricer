@@ -1,0 +1,55 @@
+﻿<UserControl x:Class="Option_Pricer_Mvvm.View.OptionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Option_Pricer_Mvvm.View"
+             mc:Ignorable="d" Height="258.364" Width="659.97">
+    <Grid Margin="10">
+        <Grid Margin="10,10,10,53">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Label Grid.Column="0" Grid.Row="0" Content="Underlying Price" />
+            <Label Grid.Column="0" Grid.Row="1" Content="Strike Price" />
+            <Label Grid.Column="0" Grid.Row="2" Content="Risk Free Rate" />
+            <Label Grid.Column="0" Grid.Row="3" Content="Maturity" />
+            <Label Grid.Column="0" Grid.Row="4" Content="Volatility" />
+            <Label Grid.Column="0" Grid.Row="5" Content="Number of simulations" />
+            <Label Grid.Column="4" Grid.Row="1" Content="Call Option" FontStyle="Italic" FontWeight="UltraBold" HorizontalAlignment="Center"/>
+            <Label Grid.Column="5" Grid.Row="1" Content="Put Option" FontStyle="Italic" FontWeight="UltraBold" HorizontalAlignment="Center"/>
+            <Label Grid.Column="3" Grid.Row="2" Content="Monte Carlo Price" FontStyle="Italic" FontWeight="DemiBold"/>
+            <Label Grid.Column="3" Grid.Row="3" Content="Black-Scholes Price" FontStyle="Italic" FontWeight="DemiBold"/>
+            <Label Grid.Column="3" Grid.Row="4" Content="Relative Error (MC%BS)" FontStyle="Italic" FontWeight="DemiBold"/>
+
+            <TextBox Grid.Column="1" Grid.Row="0" Margin="5,5,5,5" Text="{Binding UnderlyingPrice, Mode=TwoWay}"/>
+            <TextBox Grid.Column="1" Grid.Row="1" Margin="5,5,5,5" Text="{Binding Strike, Mode=TwoWay}"/>
+            <TextBox Grid.Column="1" Grid.Row="2" Margin="5,5,5,5" Text="{Binding RiskFreeInterestRate, Mode=TwoWay}"/>
+            <TextBox Grid.Column="1" Grid.Row="3" Margin="5,5,5,5" Text="{Binding Maturity, Mode=TwoWay}"/>
+            <TextBox Grid.Column="1" Grid.Row="4" Margin="5,5,5,5" Text="{Binding Volatility, Mode=TwoWay}"/>
+            <TextBox Grid.Column="1" Grid.Row="5" Margin="5,5,5,5" Text="{Binding NbrOfSimulations, Mode=TwoWay}"/>
+            <TextBox Grid.Column="4" Grid.Row="2" Margin="5,5,5,5" IsEnabled="False" Text="{Binding Path=CallPrice.MC, Mode=TwoWay}" Foreground="DarkBlue" FontWeight="Bold"/>
+            <TextBox Grid.Column="4" Grid.Row="3" Margin="5,5,5,5" IsEnabled="False" Text="{Binding Path=CallPrice.BS, Mode=TwoWay}" Foreground="DarkBlue" FontWeight="Bold"/>
+            <TextBox Grid.Column="4" Grid.Row="4" Margin="5,5,5,5" IsEnabled="False" Text="{Binding Path=Error.Call, Mode=TwoWay}" Foreground="DarkBlue" FontWeight="Bold"/>
+            <TextBox Grid.Column="5" Grid.Row="2" Margin="5,5,5,5" IsEnabled="False" Text="{Binding Path=PutPrice.MC, Mode=TwoWay}" Foreground="DarkBlue" FontWeight="Bold"/>
+            <TextBox Grid.Column="5" Grid.Row="3" Margin="5,5,5,5" IsEnabled="False" Text="{Binding Path=PutPrice.BS, Mode=TwoWay}" Foreground="DarkBlue" FontWeight="Bold"/>
+            <TextBox Grid.Column="5" Grid.Row="4" Margin="5,5,5,5" IsEnabled="False" Text="{Binding Path=Error.Put, Mode=TwoWay}" Foreground="DarkBlue" FontWeight="Bold"/>
+        </Grid>
+        <Button x:Name="btnCompute" Content="Compute" HorizontalAlignment="Right" Margin="0,0,410,18" VerticalAlignment="Bottom" Width="75" Command="{Binding ComputeCommand}"/>
+        <Button x:Name="btnReset" Content="Reset" HorizontalAlignment="Right" Margin="0,0,104,18" VerticalAlignment="Bottom" Width="75" Command="{Binding ResetCommand}"/>
+    </Grid>
+</UserControl>

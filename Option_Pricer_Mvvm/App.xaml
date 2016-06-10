@@ -1,0 +1,9 @@
+﻿<Application x:Class="Option_Pricer_Mvvm.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Option_Pricer_Mvvm"
+             StartupUri="MainWindowView.xaml">
+    <Application.Resources>
+         
+    </Application.Resources>
+</Application>
