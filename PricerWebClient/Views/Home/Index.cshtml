@@ -1,4 +1,6 @@
-﻿@model PricerWebClient.PricerService.Option
+﻿@using PricerWebClient.Models
+@model OptionInputViewModel
+
 @{
     ViewBag.Title = "Home Page";
  }
@@ -6,87 +8,75 @@
 <script src="~/Scripts/jquery-1.10.2.js"></script>
 <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
 
-@*<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
-
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>*@
 <br/>
 <div>
     <div id="divOption">
         <details open="open">
             <summary><strong><u>Pricing</u></strong></summary><br />
             <div id="divInput">
-                @using (Ajax.BeginForm("CalculatePrice", "HomeController", new AjaxOptions {OnFailure = "OnFailure", OnSuccess = "OnSuccess", UpdateTargetId = "Mc_CallPrice", HttpMethod = "POST"}, new { @id="formInput", @name="Option Input"}))
+                @using (Ajax.BeginForm("CalculatePrice", "HomeController", new AjaxOptions {OnFailure = "OnFailure", OnSuccess = "OnSuccess", UpdateTargetId = "divResult", HttpMethod = "POST"}, new { @id="formInput"}))
                 {
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true)
                     <p>
                         <Table>
                             <tr>
-                                <td style="border:0.1px solid; margin-bottom:20px; width:250px;">Spot S</td>
+                                <td style="border:0.1px solid; margin-bottom:20px; width:250px;">@Html.LabelFor(m => m.Spot)</td>
                                 <td>&nbsp;</td>
                                 <td style="border:0.1px solid;">
-                                    <input name="UnderlyingPrice" type="text" value=@Model.UnderlyingPrice id="UnderlyingPrice" />
+                                    @Html.TextBoxFor(m => m.Spot)
+                                    @Html.ValidationMessageFor(m => m.Spot, "", new { @class = "text-danger" })
                                 </td>
                             </tr>
                             <tr><td></td></tr>
                             <tr>
-                                <td style="border:0.1px solid;">Strike K</td>
+                                <td style="border:0.1px solid;">@Html.LabelFor(m => m.Strike)</td>
                                 <td>&nbsp;</td>
-                                <td style="border:0.1px solid;"> <input name="Strike" type="text" value=@Model.Strike id="Strike" /></td>
+                                <td style="border:0.1px solid;"> 
+                                    @Html.TextBoxFor(m => m.Strike)
+                                    @Html.ValidationMessageFor(m => m.Strike, "", new { @class = "text-danger" })
+                                </td>
                             </tr>
                             <tr><td></td></tr>
                             <tr>
-                                <td style="border:0.1px solid;">Volatility σ</td>
+                                <td style="border:0.1px solid;">@Html.LabelFor(m => m.Volatility)</td>
                                 <td>&nbsp;</td>
-                                <td style="border:0.1px solid;"> <input name="Volatility" type="text" value=@Model.Volatility id="Volatility" /></td>
+                                <td style="border:0.1px solid;">
+                                    @Html.TextBoxFor(m => m.Volatility)
+                                    @Html.ValidationMessageFor(m => m.Volatility, "", new { @class = "text-danger" }) 
+                                </td>
                             </tr>
                             <tr><td></td></tr>
                             <tr>
-                                <td style="border:0.1px solid;">Risk-free interest rate r</td>
+                                <td style="border:0.1px solid;">@Html.LabelFor(m => m.InterestRate)</td>
                                 <td>&nbsp;</td>
-                                <td style="border:0.1px solid; margin-bottom:5px"><input name="RiskFreeInterestRate" type="text" value=@Model.RiskFreeInterestRate id="RiskFreeInterestRate" /></td>
+                                <td style="border:0.1px solid; margin-bottom:5px">
+                                    @Html.TextBoxFor(m => m.InterestRate)
+                                    @Html.ValidationMessageFor(m => m.InterestRate, "", new { @class = "text-danger" })
+                                </td>
                             </tr>
                             <tr><td></td></tr>
                             <tr>
-                                <td style="border:0.1px solid;">Maturity T</td>
+                                <td style="border:0.1px solid;">@Html.LabelFor(m => m.Maturity)</td>
                                 <td>&nbsp;</td>
-                                <td style="border:0.1px solid;"> <input name="Maturity" type="text" value=@Model.Maturity id="Maturity" /></td>
+                                <td style="border:0.1px solid;">
+                                    @Html.TextBoxFor(m => m.Maturity)
+                                    @Html.ValidationMessageFor(m => m.Maturity, "", new { @class = "text-danger" })
+                                </td>
                             </tr>
                             <tr><td></td></tr>
                             <tr>
-                                <td style="border:0.1px solid;">Number of simulations n</td>
+                                <td style="border:0.1px solid;">@Html.LabelFor(m => m.NbrSimulations)</td>
                                 <td>&nbsp;</td>
-                                <td style="border:0.1px solid;"> <input name="NbrOfSimulations" type="text" value=@Model.NbrOfSimulations id="NbrOfSimulations" /></td>
+                                <td style="border:0.1px solid;">
+                                    @Html.TextBoxFor(m => m.NbrSimulations)
+                                    @Html.ValidationMessageFor(m => m.NbrSimulations, "", new { @class = "text-danger" })
+                                </td>
                             </tr>
                         </Table>
                     </p>
                     <p>
                         <input type="submit" name="Compute" value="Calculate" id="btnCompute" class="ButtonStyle" style="font-weight:bold;width:80px;" />
-                        <span id="ErrorMessage" style="color:Red"></span>
                     </p>
 
                     <div id="divMsg"></div>
@@ -97,41 +87,13 @@
 
                     <script type="text/javascript">
 
-                        $(document).ready(function () {
-                            // Attach click handler to the submit button:
-                            $('#btnCompute').click(function () {
-                                $('#formInput').submit();
-                            });
-                        });
-
-                        // Handle the form submit event, and make the Ajax request:
-                        $("#formInput").on("submit", function (event) {
-                            event.preventDefault();
-
-                            var url = $(this).attr("action");
-                            var formData = $(this).serialize();
-                            $.ajax({
-                                url: url,
-                                type: "POST",
-                                data: formData,
-                                dataType: "json",
-                                success: function (resp) {
-                                }
-                            })
-                        });
-
-                        function OnSuccess() {
+                        function OnSuccess(data) {
                             //$("#divMsg").append("<br/>Success");
                             //$("#divMsg").show();
 
+                            $("#divResult").html(data);
                             //$("#divResult").show();
 
-                            $("#Mc_CallPrice").text(@Model.CallPrice.MC.ToString());
-                            $("#Mc_PutPrice").text(@Model.PutPrice.MC.ToString());
-                            $("#Bs_CallPrice").text(@Model.CallPrice.BS.ToString());
-                            $("#Bs_PutPrice").text(@Model.PutPrice.BS.ToString());
-                            $("#ErrorCall").text(@Model.Error.Call.ToString());
-                            $("#ErrorPut").text(@Model.Error.Put.ToString());
                         }
 
                         function OnFailure() {
@@ -142,49 +104,7 @@
                 }
             </div>
 
-            <div id="divResult">
-                @using (Ajax.BeginForm("ResetForm", "HomeController", null, new { @id = "formResult" }))
-                {
-                    <p>
-                        <table>
-                            <tr>
-                                <td style="width:250px;" class="style1">&nbsp;</td>
-                                <td>&nbsp;</td>
-                                <td style="border:0.1px solid; width:150px; text-align:center;"><strong>Call</strong></td>
-                                <td>&nbsp;</td>
-                                <td style="border:0.1px solid; width:150px; text-align:center;"><strong>Put</strong></td>
-                            </tr>
-                            <tr><td></td></tr>
-                            <tr>
-                                <td style="border:0.1px solid;">MC Price :</td>
-                                <td>&nbsp;</td>
-                                <td style="border:0.1px solid; text-align:center;"><span id="Mc_CallPrice"></span></td>
-                                <td>&nbsp;</td>
-                                <td style="border:0.1px solid; text-align:center;"><span id="Mc_PutPrice"></span></td>
-                            </tr>
-                            <tr><td></td></tr>
-                            <tr>
-                                <td style="border:0.1px solid;">Black-Scholes Price :</td>
-                                <td>&nbsp;</td>
-                                <td style="border:0.1px solid; text-align:center;"><span id="Bs_CallPrice"></span></td>
-                                <td>&nbsp;</td>
-                                <td style="border:0.1px solid; text-align:center;"><span id="Bs_PutPrice"></span></td>
-                            </tr>
-                            <tr><td></td></tr>
-                            <tr>
-                                <td style="border:0.1px solid;">Error of estimation :</td>
-                                <td>&nbsp;</td>
-                                <td style="border:0.1px solid; text-align:center;"><span id="ErrorCall"></span></td>
-                                <td>&nbsp;</td>
-                                <td style="border:0.1px solid; text-align:center;"><span id="ErrorPut"></span></td>
-                            </tr>
-                        </table>
-                    </p>
-                    <p>
-                        <input type="submit" name="Reset" value="Reset values" id="btnReset" class="ButtonStyle" style="font-weight:bold;width:110px;" />
-                    </p>
-                }
-            </div>
+            <div id="divResult"></div>
         </details>
     </div>
     <br/>

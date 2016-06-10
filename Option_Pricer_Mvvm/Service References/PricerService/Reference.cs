@@ -312,12 +312,6 @@ namespace Option_Pricer_Mvvm.PricerService {
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="PricerService.IService")]
     public interface IService {
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/GetNewOption", ReplyAction="http://tempuri.org/IService/GetNewOptionResponse")]
-        Option_Pricer_Mvvm.PricerService.Option GetNewOption();
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/GetNewOption", ReplyAction="http://tempuri.org/IService/GetNewOptionResponse")]
-        System.Threading.Tasks.Task<Option_Pricer_Mvvm.PricerService.Option> GetNewOptionAsync();
-        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/BlackScholesModel", ReplyAction="http://tempuri.org/IService/BlackScholesModelResponse")]
         Option_Pricer_Mvvm.PricerService.Option BlackScholesModel(double d1, double d2, Option_Pricer_Mvvm.PricerService.Option option);
         
@@ -356,14 +350,6 @@ namespace Option_Pricer_Mvvm.PricerService {
         
         public ServiceClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(binding, remoteAddress) {
-        }
-        
-        public Option_Pricer_Mvvm.PricerService.Option GetNewOption() {
-            return base.Channel.GetNewOption();
-        }
-        
-        public System.Threading.Tasks.Task<Option_Pricer_Mvvm.PricerService.Option> GetNewOptionAsync() {
-            return base.Channel.GetNewOptionAsync();
         }
         
         public Option_Pricer_Mvvm.PricerService.Option BlackScholesModel(double d1, double d2, Option_Pricer_Mvvm.PricerService.Option option) {

@@ -1,0 +1,44 @@
+﻿@using PricerWebClient.Models;
+@model ResultPriceViewModel
+
+    @using (Ajax.BeginForm("ResetForm", "HomeController", null, new { @id = "formResult" }))
+    {
+        <p>
+            <table>
+                <tr>
+                    <td style="width:250px;" class="style1">&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td style="border:0.1px solid; width:150px; text-align:center;"><strong><i>@Html.Label("Call Option") </i></strong></td>
+                    <td>&nbsp;</td>
+                    <td style="border:0.1px solid; width:150px; text-align:center;"><strong><i>@Html.Label("Put Option")</i></strong></td>
+                </tr>
+                <tr><td></td></tr>
+                <tr>
+                    <td style="border:0.1px solid;">@Html.DisplayNameFor(m => m.Mc_CallPrice)</td>
+                    <td>&nbsp;</td>
+                    <td style="border:0.1px solid; text-align:center;">@Html.LabelFor(m => m.Mc_CallPrice)</td>
+                    <td>&nbsp;</td>
+                    <td style="border:0.1px solid; text-align:center;">@Html.LabelFor(m => m.Mc_PutPrice)</td>
+                </tr>
+                <tr><td></td></tr>
+                <tr>
+                    <td style="border:0.1px solid;">@Html.DisplayNameFor(m => m.Bs_CallPrice)</td>
+                    <td>&nbsp;</td>
+                    <td style="border:0.1px solid; text-align:center;">@Html.LabelFor(m => m.Bs_CallPrice)</td>
+                    <td>&nbsp;</td>
+                    <td style="border:0.1px solid; text-align:center;">@Html.LabelFor(m => m.Bs_PutPrice)</td>
+                </tr>
+                <tr><td></td></tr>
+                <tr>
+                    <td style="border:0.1px solid;">@Html.DisplayNameFor(m => m.Error_CallPrice)</td>
+                    <td>&nbsp;</td>
+                    <td style="border:0.1px solid; text-align:center;">@Html.LabelFor(m => m.Error_CallPrice)</td>
+                    <td>&nbsp;</td>
+                    <td style="border:0.1px solid; text-align:center;">@Html.LabelFor(m => m.Error_PutPrice)</td>
+                </tr>
+            </table>
+        </p>
+        <p>
+            <input type="submit" name="Reset" value="Reset values" id="btnReset" class="ButtonStyle" style="font-weight:bold;width:110px;" />
+        </p>
+    }
