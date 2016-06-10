@@ -87,7 +87,7 @@ namespace WcfWebService
             double putPayoff_Sum = 0.0;
             double stockPrice = 0.0;
 
-            Parallel.For(0, option.NbrOfSimulations,
+            /*Parallel.For(0, option.NbrOfSimulations,
                 index =>
                 {
                     double rndNumber = this.GetRandom_BoxMuller(rnd);
@@ -95,18 +95,16 @@ namespace WcfWebService
                     callPayoff_Sum += Math.Max(stockPrice - option.Strike, 0.0);
                      
                     putPayoff_Sum += Math.Max(option.Strike - stockPrice, 0.0);
-                });
+                });*/
 
-            /*for (int i = 0; i < option.NbrOfSimulations; i++)
+            for (int i = 0; i < option.NbrOfSimulations; i++)
             {
                 double rndNumber = this.GetRandom_BoxMuller(rnd);
                 stockPrice = spotDrift * Math.Exp(rndNumber * sqrtSigmaT);
                 callPayoff_Sum += Math.Max(stockPrice - option.Strike, 0.0);
 
-                //rndNumber = this.GetRandom_BoxMuller();
-                //stockPrice = spotDrift * Math.Exp(rndNumber * sqrtSigmaT);
                 putPayoff_Sum += Math.Max(option.Strike - stockPrice, 0.0);
-            }*/
+            }
 
             option.CallPrice.MC = callPayoff_Sum * discountFactor / option.NbrOfSimulations;
             option.PutPrice.MC = putPayoff_Sum * discountFactor / option.NbrOfSimulations;
