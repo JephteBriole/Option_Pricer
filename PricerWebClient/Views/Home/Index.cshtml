@@ -14,7 +14,7 @@
         <details open="open">
             <summary><strong><u>Pricing</u></strong></summary><br />
             <div id="divInput">
-                @using (Ajax.BeginForm("CalculatePrice", "HomeController", new AjaxOptions {OnFailure = "OnFailure", OnSuccess = "OnSuccess", UpdateTargetId = "divResult", HttpMethod = "POST"}, new { @id="formInput"}))
+                @using (Ajax.BeginForm("CalculatePrice", "HomeController", new AjaxOptions {OnSuccess = "OnSuccess", OnFailure = "OnFailure", UpdateTargetId = "divResult", HttpMethod = "POST"}, new { @id="formInput"}))
                 {
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true)
@@ -79,32 +79,35 @@
                         <input type="submit" name="Compute" value="Calculate" id="btnCompute" class="ButtonStyle" style="font-weight:bold;width:80px;" />
                     </p>
 
-                    <div id="divMsg"></div>
-                }
-
-                @section Scripts {
-                    @Scripts.Render("~/bundles/jqueryval")
-
-                    <script type="text/javascript">
-
-                        function OnSuccess(data) {
-                            //$("#divMsg").append("<br/>Success");
-                            //$("#divMsg").show();
-
-                            $("#divResult").html(data);
-                            //$("#divResult").show();
-
-                        }
-
-                        function OnFailure() {
-                            $("#divMsg").append("<br/>Failed");
-                            $("#divMsg").show();
-                        }
-                    </script>
+                    <div id="divMsg" class="text-danger"></div>
                 }
             </div>
+    
+            <div id="divResult"> </div>
 
-            <div id="divResult"></div>
+            <p id="reset" hidden="hidden">
+                <input type="submit" name="Reset" value="Reset values" id="btnReset" class="ButtonStyle" style="font-weight:bold;width:110px;" />
+            </p>
+
+            @section Scripts {
+                @Scripts.Render("~/bundles/jqueryval")
+
+                <script type="text/javascript">
+
+                    $('#reset').on('click', '#btnReset', function () {
+                        
+
+                    });
+
+                    function OnSuccess() {
+                        $("#reset").show();
+                    }
+                    function OnFailure() {
+                        $("#divMsg").append("<br/>Failed");
+                        $("#divMsg").show();
+                    }
+                </script>
+            }
         </details>
     </div>
     <br/>

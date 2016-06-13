@@ -11,32 +11,32 @@ namespace PricerWebClient.Models
         [Required]
         [RegularExpression(@"^[0-9]*(?:\,[0-9]*)?$", ErrorMessage = "Please enter a valid numeric type")]
         [Display(Name = "Spot S")]
-        public double Spot { get; set; }
+        public string Spot { get; set; }
 
         [Required]
         [RegularExpression(@"^[0-9]*(?:\,[0-9]*)?$", ErrorMessage = "Please enter a valid numeric type")]
         [Display(Name = "Strike K")]
-        public double Strike { get; set; }
+        public string Strike { get; set; }
 
         [Required]
         [RegularExpression(@"^[0-9]*(?:\,[0-9]*)?$", ErrorMessage = "Please enter a valid numeric type")]
         [Display(Name = "Volatility σ")]
-        public double Volatility { get; set; }
+        public string Volatility { get; set; }
 
         [Required]
         [RegularExpression(@"^[0-9]*(?:\,[0-9]*)?$", ErrorMessage = "Please enter a valid numeric type")]
         [Display(Name = "Risk-free interest rate r")]
-        public double InterestRate { get; set; }
+        public string InterestRate { get; set; }
 
         [Required]
         [RegularExpression(@"^[0-9]*(?:\,[0-9]*)?$", ErrorMessage = "Please enter a valid numeric type")]
         [Display(Name = "Maturity")]
-        public double Maturity { get; set; }
+        public string Maturity { get; set; }
 
         [Required]
         [RegularExpression(@"^[0-9]+$", ErrorMessage = "Please enter a valid integer type")]
         [Display(Name = "Number of simulations n")]
-        public int NbrSimulations { get; set; }
+        public string NbrSimulations { get; set; }
     }
 
     public class ResultPriceViewModel
