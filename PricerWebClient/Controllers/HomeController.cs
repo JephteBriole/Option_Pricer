@@ -20,6 +20,7 @@ namespace PricerWebClient.Controllers
             NbrSimulations = "100000"
         };
 
+
         public ActionResult Index()
         {
             return View(defaultInput);

@@ -12,7 +12,7 @@ namespace PricerWebClient.Mapping
     {
         protected override void Configure()
         {
-            Mapper.CreateMap<OptionInputViewModel, Option>()
+            this.CreateMap<OptionInputViewModel, Option>()
                 .ForMember(dest => dest.UnderlyingPrice, opts => opts.MapFrom(src => double.Parse(src.Spot)))
                 .ForMember(dest => dest.Strike, opts => opts.MapFrom(src => double.Parse(src.Strike)))
                 .ForMember(dest => dest.Volatility, opts => opts.MapFrom(src => double.Parse(src.Volatility)))
@@ -22,7 +22,7 @@ namespace PricerWebClient.Mapping
                 .ReverseMap()
                 ;
 
-            Mapper.CreateMap<Option, ResultPriceViewModel>()
+            this.CreateMap<Option, ResultPriceViewModel>()
                 .ForMember(dest => dest.Mc_CallPrice, opts => opts.MapFrom(src => src.CallPrice.MC))
                 .ForMember(dest => dest.Mc_PutPrice, opts => opts.MapFrom(src => src.PutPrice.MC))
                 .ForMember(dest => dest.Bs_CallPrice, opts => opts.MapFrom(src => src.CallPrice.BS))
